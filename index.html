@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pay Me</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #f2f2f7;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      overflow: hidden;
+    }
+    .container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 2em;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 90%;
+      max-width: 320px;
+    }
+    h2 {
+      margin-top: 0;
+      font-size: 1.4em;
+      color: #333;
+    }
+    .pay-button {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      margin: 12px 0;
+      border: none;
+      border-radius: 10px;
+      font-size: 1em;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .venmo { background-color: #3D95CE; color: white; }
+    .cashapp { background-color: #00D64B; color: white; }
+    .zelle { background-color: #6F2DA8; color: white; }
+    .paypal { background-color: #00457C; color: white; }
+    .pay-button:active {
+      opacity: 0.85;
+      transform: scale(0.98);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Send a Payment</h2>
+    <a href="#" class="pay-button venmo">Venmo</a>
+    <a href="#" class="pay-button cashapp">Cash App</a>
+    <a href="#" class="pay-button zelle">Zelle</a>
+    <a href="#" class="pay-button paypal">PayPal</a>
+  </div>
+</body>
+</html>
