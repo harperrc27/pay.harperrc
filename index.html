@@ -9,13 +9,14 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#ffffff">
   <link rel="manifest" href="manifest.json">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       background-color: #ffffff;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
       overflow: hidden;
       touch-action: manipulation;
     }
@@ -23,60 +24,72 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      align-items: center;
       height: 100%;
-      padding: 0 20px;
+      padding: 20px;
       box-sizing: border-box;
+      text-align: center;
+      animation: fadeIn 0.6s ease-in;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     h2 {
-      text-align: center;
       font-size: 1.6em;
       font-weight: 600;
-      margin-bottom: 24px;
+      margin-bottom: 30px;
       color: #111;
     }
     .pay-button {
-      display: block;
       width: 100%;
-      padding: 16px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 14px;
-      font-size: 1.05em;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background 0.2s ease;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      max-width: 280px;
+      background: #f7f7f7;
+      border-radius: 16px;
+      margin: 12px 0;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+      transition: transform 0.2s ease;
+      text-decoration: none;
     }
-    .venmo { background-color: #3D95CE; color: white; }
-    .cashapp { background-color: #00D64B; color: white; }
-    .zelle { background-color: #6F2DA8; color: white; }
-    .paypal { background-color: #00457C; color: white; }
-    .pay-button:active {
-      opacity: 0.9;
+    .pay-button:hover {
+      transform: scale(1.03);
+    }
+    .pay-button img {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 8px;
+    }
+    .pay-label {
+      font-size: 1em;
+      font-weight: 500;
+      color: #111;
     }
     .banner {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      background: #fefefe;
-      border-top: 1px solid #ccc;
-      padding: 12px 20px;
+      background: #f9f9f9;
+      border-top: 1px solid #ddd;
+      padding: 12px 16px;
+      text-align: left;
       font-size: 0.95em;
-      text-align: center;
-      box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
-      z-index: 1000;
       display: none;
+      z-index: 1000;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.04);
     }
-    .banner span {
-      font-weight: 600;
+    .banner strong {
       color: #007aff;
     }
     .banner button {
-      margin-left: 12px;
-      background: transparent;
+      float: right;
       border: none;
-      font-size: 1em;
+      background: none;
+      font-size: 0.95em;
       color: #007aff;
       font-weight: 600;
       cursor: pointer;
@@ -85,22 +98,37 @@
 </head>
 <body>
   <div class="container">
-    <h2>Send a Payment</h2>
-    <a href="#" class="pay-button venmo">Venmo</a>
-    <a href="#" class="pay-button cashapp">Cash App</a>
-    <a href="#" class="pay-button zelle">Zelle</a>
-    <a href="#" class="pay-button paypal">PayPal</a>
+    <h2>Choose a Payment Method</h2>
+
+    <a href="#" class="pay-button">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/c/c6/Venmo_logo_2019.svg" alt="Venmo">
+      <div class="pay-label">Pay with Venmo</div>
+    </a>
+
+    <a href="#" class="pay-button">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Cash_App_logo.svg" alt="Cash App">
+      <div class="pay-label">Pay with Cash App</div>
+    </a>
+
+    <a href="#" class="pay-button">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/e/e2/Zelle_logo.svg" alt="Zelle">
+      <div class="pay-label">Pay with Zelle</div>
+    </a>
+
+    <a href="#" class="pay-button">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal">
+      <div class="pay-label">Pay with PayPal</div>
+    </a>
   </div>
 
   <div class="banner" id="installBanner">
-    Add this app to your home screen for full experience.
+    <strong>Add this app:</strong> Tap the Share icon 
+    <span style="font-size:1.2em;">&#x1f5d2;</span> below, then “Add to Home Screen”.
     <button onclick="dismissPrompt()">Dismiss</button>
-    <span id="a2hsInstructions"></span>
   </div>
 
   <script>
     const banner = document.getElementById("installBanner");
-    const instructions = document.getElementById("a2hsInstructions");
 
     function dismissPrompt() {
       banner.style.display = "none";
@@ -111,21 +139,8 @@
       if (window.matchMedia('(display-mode: standalone)').matches || localStorage.getItem("a2hs-dismissed") === "true") return;
 
       const isIOS = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
-      const isAndroid = /android/.test(window.navigator.userAgent.toLowerCase());
-
       if (isIOS) {
         banner.style.display = "block";
-        instructions.textContent = " (Tap Share → Add to Home Screen)";
-      } else if (isAndroid) {
-        window.addEventListener('beforeinstallprompt', (e) => {
-          e.preventDefault();
-          banner.style.display = "block";
-          instructions.textContent = " (Tap here to install)";
-          banner.onclick = () => {
-            e.prompt();
-            e.userChoice.then(() => banner.style.display = "none");
-          };
-        });
       }
     });
   </script>
