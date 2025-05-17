@@ -3,58 +3,56 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Pay Me</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Send Payment</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#f2f2f7">
+  <meta name="theme-color" content="#ffffff">
   <link rel="manifest" href="manifest.json">
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
-      background-color: #f2f2f7;
+      background-color: #ffffff;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
       overflow: hidden;
+      touch-action: manipulation;
     }
     .container {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: white;
-      padding: 2em;
-      border-radius: 12px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-      text-align: center;
-      width: 90%;
-      max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+      padding: 0 20px;
+      box-sizing: border-box;
     }
     h2 {
-      margin-top: 0;
-      font-size: 1.4em;
-      color: #333;
+      text-align: center;
+      font-size: 1.6em;
+      font-weight: 600;
+      margin-bottom: 24px;
+      color: #111;
     }
     .pay-button {
       display: block;
       width: 100%;
-      padding: 14px;
-      margin: 12px 0;
+      padding: 16px;
+      margin: 10px 0;
       border: none;
-      border-radius: 10px;
-      font-size: 1em;
+      border-radius: 14px;
+      font-size: 1.05em;
       font-weight: 500;
       cursor: pointer;
       transition: background 0.2s ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     }
     .venmo { background-color: #3D95CE; color: white; }
     .cashapp { background-color: #00D64B; color: white; }
     .zelle { background-color: #6F2DA8; color: white; }
     .paypal { background-color: #00457C; color: white; }
     .pay-button:active {
-      opacity: 0.85;
-      transform: scale(0.98);
+      opacity: 0.9;
     }
   </style>
 </head>
