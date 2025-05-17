@@ -54,6 +54,33 @@
     .pay-button:active {
       opacity: 0.9;
     }
+    .banner {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fefefe;
+      border-top: 1px solid #ccc;
+      padding: 12px 20px;
+      font-size: 0.95em;
+      text-align: center;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+      z-index: 1000;
+      display: none;
+    }
+    .banner span {
+      font-weight: 600;
+      color: #007aff;
+    }
+    .banner button {
+      margin-left: 12px;
+      background: transparent;
+      border: none;
+      font-size: 1em;
+      color: #007aff;
+      font-weight: 600;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -64,5 +91,43 @@
     <a href="#" class="pay-button zelle">Zelle</a>
     <a href="#" class="pay-button paypal">PayPal</a>
   </div>
+
+  <div class="banner" id="installBanner">
+    Add this app to your home screen for full experience.
+    <button onclick="dismissPrompt()">Dismiss</button>
+    <span id="a2hsInstructions"></span>
+  </div>
+
+  <script>
+    const banner = document.getElementById("installBanner");
+    const instructions = document.getElementById("a2hsInstructions");
+
+    function dismissPrompt() {
+      banner.style.display = "none";
+      localStorage.setItem("a2hs-dismissed", "true");
+    }
+
+    window.addEventListener("load", () => {
+      if (window.matchMedia('(display-mode: standalone)').matches || localStorage.getItem("a2hs-dismissed") === "true") return;
+
+      const isIOS = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
+      const isAndroid = /android/.test(window.navigator.userAgent.toLowerCase());
+
+      if (isIOS) {
+        banner.style.display = "block";
+        instructions.textContent = " (Tap Share → Add to Home Screen)";
+      } else if (isAndroid) {
+        window.addEventListener('beforeinstallprompt', (e) => {
+          e.preventDefault();
+          banner.style.display = "block";
+          instructions.textContent = " (Tap here to install)";
+          banner.onclick = () => {
+            e.prompt();
+            e.userChoice.then(() => banner.style.display = "none");
+          };
+        });
+      }
+    });
+  </script>
 </body>
 </html>
