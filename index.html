@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pay Harper</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom right, #f8fafc, #e2e8f0);
+      font-family: 'Inter', sans-serif;
+      color: #1f2937;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 16px;
+    }
+    h1 {
+      font-size: 1.6rem;
+      margin-bottom: 24px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 140px);
+      gap: 18px;
+      justify-content: center;
+    }
+    .btn {
+      background: #fff;
+      border-radius: 16px;
+      padding: 12px 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .btn:hover {
+      transform: scale(1.05);
+    }
+    .btn img {
+      width: 60px;
+      height: auto;
+      margin-bottom: 8px;
+    }
+    .btn span {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <h1>Send a Payment</h1>
+  <div class="grid">
+    <div class="btn" onclick="alert('Venmo link coming soon')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Venmo_Logo_2021.svg" alt="Venmo Logo" />
+      <span>Venmo</span>
+    </div>
+    <div class="btn" onclick="alert('Cash App link coming soon')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/Cash_App_Logo.svg" alt="Cash App Logo" />
+      <span>Cash App</span>
+    </div>
+    <div class="btn" onclick="alert('PayPal link coming soon')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal Logo" />
+      <span>PayPal</span>
+    </div>
+    <div class="btn" onclick="alert('Zelle email copied! Open your bank app and paste.')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/f/fd/Zelle_logo.svg" alt="Zelle Logo" />
+      <span>Zelle</span>
+    </div>
+  </div>
+</body>
+</html>
