@@ -1,0 +1,9 @@
+{
+  "name": "Pay Me",
+  "short_name": "PayMe",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#111111",
+  "theme_color": "#111111",
+  "icons": [{"src": "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/venmo.svg","sizes":"192x192","type":"image/svg+xml"}]
+}
