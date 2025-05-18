@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pay Harper</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: linear-gradient(to bottom right, #f1f5f9, #e2e8f0);
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      text-align: center;
+    }
+    h1 {
+      font-size: 1.6em;
+      margin: 24px 0 10px;
+      color: #111827;
+    }
+    .card {
+      background: white;
+      padding: 24px;
+      margin: 16px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      width: 95%;
+      max-width: 400px;
+    }
+    .method-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      gap: 16px;
+    }
+    .method {
+      width: 70px;
+      height: 70px;
+      border-radius: 16px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .method:hover {
+      transform: scale(1.08);
+    }
+    .method svg {
+      width: 100%;
+      height: auto;
+    }
+
+    .step, .confirm-area {
+      margin-top: 30px;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+    }
+    .amount-display {
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 80px);
+      gap: 10px;
+      justify-content: center;
+    }
+    .key {
+      font-size: 1.4em;
+      background: #f0f0f0;
+      border: none;
+      border-radius: 12px;
+      padding: 15px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .key:active {
+      background: #ddd;
+    }
+    .presets {
+      margin-top: 15px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .preset {
+      background: #efefef;
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 0.9em;
+      cursor: pointer;
+    }
+    .confirm {
+      margin-top: 20px;
+      padding: 12px 20px;
+      font-size: 1em;
+      background: #007aff;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    .link-out {
+      margin-top: 20px;
+    }
+    .link-out a {
+      color: #007aff;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .message {
+      margin-top: 20px;
+      color: #007aff;
+      font-size: 0.95em;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Send a Payment</h1>
+  <div class="card">
+    <div class="method-buttons">
+      <div class="method" onclick="chooseMethod('venmo')">
+        <svg viewBox="0 0 512 512"><path fill="#3D95CE" d="M97 76c-13 0-24 11-24 25v2l48 306c3 22 22 37 43 37h95l35-208h4l11 80c3 22 21 36 43 36h77l-42-286c-2-12-11-21-23-21H97z"/></svg>
+      </div>
+      <div class="method" onclick="chooseMethod('cashapp')">
+        <svg viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#00D64B"/><path fill="#fff" d="M275 236l-30-11c-11-4-14-7-14-12 0-7 6-10 14-10 10 0 22 4 29 8l11-26c-9-6-20-10-34-12v-23h-27v25c-24 6-38 24-38 47 0 28 21 41 47 50l27 10c11 4 15 7 15 13 0 7-6 11-16 11-13 0-27-5-39-12l-12 25c12 8 28 13 45 14v22h27v-25c25-6 39-24 39-48 0-30-21-42-47-51z"/></svg>
+      </div>
+      <div class="method" onclick="chooseMethod('paypal')">
+        <svg viewBox="0 0 512 512"><path fill="#00457C" d="M184 112l-36 288h66l10-80h55c41 0 78-31 85-71 7-41-23-71-64-71h-80l8-66h-44z"/></svg>
+      </div>
+      <div class="method" onclick="handleZelle()">
+        <svg viewBox="0 0 512 512"><path fill="#6F2DA8" d="M331 112l-100 160h92l-112 128h180l-14-80h-92l114-144H331z"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="card step" id="amountStep">
+    <div class="amount-display" id="amountDisplay">$0</div>
+    <div class="keypad">
+      <button class="key" onclick="pressKey('1')">1</button>
+      <button class="key" onclick="pressKey('2')">2</button>
+      <button class="key" onclick="pressKey('3')">3</button>
+      <button class="key" onclick="pressKey('4')">4</button>
+      <button class="key" onclick="pressKey('5')">5</button>
+      <button class="key" onclick="pressKey('6')">6</button>
+      <button class="key" onclick="pressKey('7')">7</button>
+      <button class="key" onclick="pressKey('8')">8</button>
+      <button class="key" onclick="pressKey('9')">9</button>
+      <button class="key" onclick="pressKey('.')">.</button>
+      <button class="key" onclick="pressKey('0')">0</button>
+      <button class="key" onclick="clearAmount()">←</button>
+    </div>
+    <div class="presets">
+      <div class="preset" onclick="setAmount('5')">$5</div>
+      <div class="preset" onclick="setAmount('10')">$10</div>
+      <div class="preset" onclick="setAmount('20')">$20</div>
+      <div class="preset" onclick="setAmount('50')">$50</div>
+    </div>
+    <button class="confirm" onclick="confirmAmount()">Confirm Amount</button>
+  </div>
+
+  <div class="confirm-area" id="linkStep">
+    <div class="link-out" id="linkOutput"></div>
+  </div>
+
+  <div class="message" id="zelleMessage">
+    Zelle email copied: <strong>harperrcfinancial@gmail.com</strong><br>
+    Open your bank app and paste to send.
+  </div>
+
+  <script>
+    let chosenMethod = null;
+    let currentAmount = "";
+
+    function chooseMethod(method) {
+      chosenMethod = method;
+      document.getElementById("amountStep").style.display = "flex";
+      document.getElementById("linkStep").style.display = "none";
+      document.getElementById("zelleMessage").style.display = "none";
+    }
+
+    function pressKey(val) {
+      if (val === "." && currentAmount.includes(".")) return;
+      if (currentAmount === "0" && val !== ".") currentAmount = "";
+      currentAmount += val;
+      updateDisplay();
+    }
+
+    function clearAmount() {
+      currentAmount = currentAmount.slice(0, -1);
+      updateDisplay();
+    }
+
+    function setAmount(val) {
+      currentAmount = val;
+      updateDisplay();
+    }
+
+    function updateDisplay() {
+      document.getElementById("amountDisplay").innerText = "$" + (currentAmount || "0");
+    }
+
+    function confirmAmount() {
+      if (!currentAmount || isNaN(currentAmount)) return;
+      let url = "#";
+      if (chosenMethod === "venmo") {
+        url = `https://venmo.com/harperrc27?txn=pay&amount=${currentAmount}&note=Thanks`;
+      } else if (chosenMethod === "cashapp") {
+        url = `https://cash.app/$harperrc/${currentAmount}`;
+      } else if (chosenMethod === "paypal") {
+        url = `https://www.paypal.me/harperrc/${currentAmount}`;
+      }
+      document.getElementById("linkStep").style.display = "flex";
+      document.getElementById("linkOutput").innerHTML = `<a href="${url}" target="_blank">Tap here to pay with ${chosenMethod.charAt(0).toUpperCase() + chosenMethod.slice(1)}</a>`;
+    }
+
+    function handleZelle() {
+      navigator.clipboard.writeText("harperrcfinancial@gmail.com").then(() => {
+        document.getElementById("zelleMessage").style.display = "block";
+        document.getElementById("amountStep").style.display = "none";
+        document.getElementById("linkStep").style.display = "none";
+      });
+    }
+  </script>
+</body>
+</html>
